@@ -1,0 +1,22 @@
+export const business = {
+  name: "Ultimate Service Solutions",
+  tagline: "Pest Control Services",
+  shortName: "USS",
+  phone: "8700893598",
+  phoneDisplay: "+91 87008 93598",
+  whatsapp: "918700893598",
+  email: "ultimateservicesolutionss@gmail.com",
+  address: "Haryana, India",
+  areas: ["Delhi NCR", "Haryana"],
+  established: "2012",
+  yearsActive: "12+",
+  jobsDone: "5000+",
+  satisfactionGuarantee: "100%",
+  workingHours: "Mon–Sat: 8:00 AM – 7:00 PM",
+  social: {
+    facebook: "",
+    instagram: "",
+    youtube: "",
+    linkedin: "",
+  },
+};
