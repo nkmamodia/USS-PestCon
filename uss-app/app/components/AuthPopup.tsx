@@ -1,6 +1,7 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
 import { business } from "@/config/business";
+import { EyeOpen, EyeOff } from "./EyeIcons";
 
 export default function AuthPopup({ defaultTab = "signin", onClose }: { defaultTab?: "signin" | "signup"; onClose: () => void }) {
   const [tab, setTab] = useState<"signin" | "signup">(defaultTab);
@@ -166,7 +167,7 @@ export default function AuthPopup({ defaultTab = "signin", onClose }: { defaultT
                   onKeyDown={e => handleEnter(e, handleSignIn)}
                   style={inputStyle} />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ ...eyeButtonStyle, top: 38 }}>
-                  {showPassword ? "🙈" : "👁"}
+                  {showPassword ? <EyeOff /> : <EyeOpen />}
                 </button>
               </div>
               <div style={{ textAlign: "right", marginBottom: 16 }}>
@@ -230,7 +231,7 @@ export default function AuthPopup({ defaultTab = "signin", onClose }: { defaultT
                   onKeyDown={e => handleEnter(e, handleSignUp)}
                   style={inputStyle} />
                 <button type="button" onClick={() => setShowPassword(!showPassword)} style={{ ...eyeButtonStyle, top: 38 }}>
-                  {showPassword ? "🙈" : "👁"}
+                  {showPassword ? <EyeOff /> : <EyeOpen />}
                 </button>
               </div>
               <div style={{ ...fieldStyle, position: "relative" }}>
@@ -241,7 +242,7 @@ export default function AuthPopup({ defaultTab = "signin", onClose }: { defaultT
                   onKeyDown={e => handleEnter(e, handleSignUp)}
                   style={inputStyle} />
                 <button type="button" onClick={() => setShowConfirmPassword(!showConfirmPassword)} style={{ ...eyeButtonStyle, top: 38 }}>
-                  {showConfirmPassword ? "🙈" : "👁"}
+                  {showConfirmPassword ? <EyeOff /> : <EyeOpen />}
                 </button>
               </div>
               <button onClick={handleSignUp} style={{
