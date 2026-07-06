@@ -8,25 +8,60 @@ import AuthPopup from "@/app/components/AuthPopup";
 const dmSans = DM_Sans({ subsets: ["latin"], variable: "--font-body" });
 const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-display" });
 
+const navLinks = [
+  { label: "About",        href: "/#about" },
+  { label: "Services",     href: "/services" },
+  { label: "AMC",          href: "/amc" },
+  { label: "Gallery",      href: "/gallery" },
+  { label: "How It Works", href: "/how-it-works" },
+  { label: "Book Service", href: "/book-service" },
+];
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const [authPopup, setAuthPopup] = useState<null | "signin" | "signup">(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
     <html lang="en">
       <body className={`${dmSans.variable} ${playfair.variable}`}>
 
         <style>{`
-          .nav-link { position: relative; padding-bottom: 2px; font-size: 14px; font-weight: 500; color: #4b5563; text-decoration: none; }
-          .nav-link::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: #f97316; transform: scaleX(0); transform-origin: left; transition: transform 0.2s; }
+          .nav-link {
+            position: relative; padding-bottom: 2px;
+            font-size: 14px; font-weight: 500;
+            color: #4b5563; text-decoration: none;
+          }
+          .nav-link::after {
+            content: ''; position: absolute;
+            bottom: 0; left: 0; right: 0; height: 2px;
+            background: #0d9488;
+            transform: scaleX(0); transform-origin: left;
+            transition: transform 0.2s;
+          }
           .nav-link:hover::after { transform: scaleX(1); }
           .nav-link:hover { color: #0b2038; }
           .signup-btn { transition: box-shadow 0.2s, background 0.2s; }
-          .signup-btn:hover { background: #0d9488 !important; box-shadow: 0 0 18px rgba(13,148,136,0.65), 0 0 36px rgba(13,148,136,0.3) !important; }
-          @media (max-width: 900px) { .nav-links { display: none; } }
+          .signup-btn:hover {
+            background: #0d9488 !important;
+            box-shadow: 0 0 18px rgba(13,148,136,0.65), 0 0 36px rgba(13,148,136,0.3) !important;
+          }
+          .mobile-menu-link {
+            display: block; padding: 12px 20px;
+            font-size: 15px; font-weight: 500; color: #1f2937;
+            text-decoration: none; border-bottom: 1px solid #f1f5f9;
+            transition: background 0.15s, color 0.15s;
+          }
+          .mobile-menu-link:hover { background: #f0fdfa; color: #0d9488; }
+          .hamburger-bar {
+            display: block; width: 22px; height: 2px;
+            background: #0d9488; border-radius: 2px;
+            transition: all 0.3s;
+          }
         `}</style>
 
         {authPopup && <AuthPopup defaultTab={authPopup} onClose={() => setAuthPopup(null)} />}
 
+        {/* NAV */}
         <nav style={{
           position: "sticky", top: 0, zIndex: 100,
           background: "rgba(255,255,255,0.97)",
@@ -36,6 +71,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           display: "flex", alignItems: "center", justifyContent: "space-between",
           height: "68px",
         }}>
+
+          {/* LOGO */}
           <Link href="/" style={{ display: "flex", alignItems: "center", gap: "10px", textDecoration: "none" }}>
             <div style={{
               width: 40, height: 40, borderRadius: 10,
@@ -44,37 +81,97 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               color: "white", fontWeight: 700, fontSize: 15,
             }}>USS</div>
             <div style={{ lineHeight: 1.2 }}>
-              <div style={{ fontFamily: "var(--font-display)", fontSize: 15, fontWeight: 700, color: "#0b2038" }}>Ultimate Service Solutions</div>
-              <div style={{ fontSize: 10, color: "#9ca3af", letterSpacing: "0.06em", textTransform: "uppercase" }}>Pest Control Experts</div>
+              <div style={{ fontFamily: "var(--font-display)", fontSize: 15, fontWeight: 700, color: "#0b2038" }}>
+                Ultimate Service Solutions
+              </div>
+              <div style={{ fontSize: 10, color: "#9ca3af", letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                Pest Control Experts
+              </div>
             </div>
           </Link>
 
-          <div className="nav-links" style={{ display: "flex", gap: 24, alignItems: "center" }}>
-            <Link href="/#about"       className="nav-link">About</Link>
-            <Link href="/services"     className="nav-link">Services</Link>
-            <Link href="/amc"          className="nav-link">AMC</Link>
-            <Link href="/gallery"      className="nav-link">Gallery</Link>
-            <Link href="/book-service" className="nav-link">Book Service</Link>
+          {/* DESKTOP LINKS */}
+          <div style={{ display: "flex", gap: 22, alignItems: "center" }} className="desktop-nav">
+            {navLinks.map((l) => (
+              <Link key={l.label} href={l.href} className="nav-link">{l.label}</Link>
+            ))}
             <div style={{ width: 1, height: 20, background: "#e5e7eb" }} />
-            <button onClick={() => setAuthPopup("signin")} className="nav-link" style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "inherit" }}>
+            <button onClick={() => setAuthPopup("signin")} className="nav-link"
+              style={{ background: "none", border: "none", cursor: "pointer", fontFamily: "inherit" }}>
               Sign in
             </button>
-            <button onClick={() => setAuthPopup("signup")} className="signup-btn" style={{
-              fontSize: 14, fontWeight: 600, color: "white",
-              background: "#0b2038", padding: "9px 20px", borderRadius: 8,
-              border: "none", cursor: "pointer", fontFamily: "inherit",
-            }}>Sign up</button>
+            <button onClick={() => setAuthPopup("signup")} className="signup-btn"
+              style={{
+                fontSize: 14, fontWeight: 600, color: "white",
+                background: "#0b2038", padding: "9px 20px", borderRadius: 8,
+                border: "none", cursor: "pointer", fontFamily: "inherit",
+              }}>Sign up</button>
           </div>
+
+          {/* HAMBURGER BUTTON — mobile only */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="hamburger-btn"
+            style={{
+              display: "none", flexDirection: "column", gap: 5,
+              background: "none", border: "none", cursor: "pointer",
+              padding: 8,
+            }}
+            aria-label="Open menu"
+          >
+            <span className="hamburger-bar" />
+            <span className="hamburger-bar" />
+            <span className="hamburger-bar" />
+          </button>
+
         </nav>
+
+        {/* MOBILE DROPDOWN MENU */}
+        {mobileOpen && (
+          <div style={{
+            position: "fixed", top: 68, left: 0, right: 0,
+            background: "white",
+            borderBottom: "1px solid #e5e7eb",
+            zIndex: 99,
+            boxShadow: "0 8px 24px rgba(0,0,0,0.08)",
+          }}>
+            {navLinks.map((l) => (
+              <Link key={l.label} href={l.href} className="mobile-menu-link"
+                onClick={() => setMobileOpen(false)}>
+                {l.label}
+              </Link>
+            ))}
+            <div style={{ padding: "12px 20px", display: "flex", gap: 10, borderTop: "1px solid #f1f5f9" }}>
+              <button onClick={() => { setAuthPopup("signin"); setMobileOpen(false); }}
+                style={{
+                  flex: 1, padding: "11px", borderRadius: 8, border: "1px solid #e5e7eb",
+                  background: "white", color: "#0b2038", fontWeight: 600,
+                  fontSize: 14, cursor: "pointer", fontFamily: "inherit",
+                }}>Sign in</button>
+              <button onClick={() => { setAuthPopup("signup"); setMobileOpen(false); }}
+                style={{
+                  flex: 1, padding: "11px", borderRadius: 8, border: "none",
+                  background: "#0b2038", color: "white", fontWeight: 600,
+                  fontSize: 14, cursor: "pointer", fontFamily: "inherit",
+                }}>Sign up</button>
+            </div>
+          </div>
+        )}
 
         {children}
 
         {/* SOCIAL MEDIA */}
         <section id="social" style={{ padding: "80px 5%", background: "#f9fafb" }}>
           <div style={{ maxWidth: 900, margin: "0 auto", textAlign: "center" }}>
-            <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#0d9488", marginBottom: 10 }}>Follow Us</div>
-            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(26px, 3.5vw, 40px)", color: "#111827", marginBottom: 16 }}>Stay Connected</h2>
-            <p style={{ fontSize: 15, color: "#6b7280", marginBottom: 48 }}>Our social media pages are coming soon. Follow us for updates, tips, and offers.</p>
+            <div style={{ fontSize: 12, fontWeight: 600, letterSpacing: "0.1em", textTransform: "uppercase", color: "#0d9488", marginBottom: 10 }}>
+              Follow Us
+            </div>
+            <h2 style={{ fontFamily: "var(--font-display)", fontSize: "clamp(26px, 3.5vw, 40px)", color: "#111827", marginBottom: 16 }}>
+              Stay Connected
+            </h2>
+            <p style={{ fontSize: 15, color: "#6b7280", marginBottom: 48 }}>
+              Our social media pages are coming soon. Follow us for updates, tips, and offers.
+            </p>
             <div style={{ display: "flex", justifyContent: "center", gap: 20, flexWrap: "wrap" }}>
               {[{ name: "Facebook", icon: "📘" }, { name: "Instagram", icon: "📸" }, { name: "YouTube", icon: "📺" }, { name: "LinkedIn", icon: "💼" }].map((p) => (
                 <div key={p.name} style={{
@@ -95,7 +192,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <footer style={{ background: "#111827", color: "rgba(255,255,255,0.7)", padding: "60px 5% 30px" }}>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))", gap: 48, marginBottom: 48 }}>
             <div>
-              <div style={{ fontFamily: "var(--font-display)", fontSize: 18, color: "white", marginBottom: 10, fontWeight: 700 }}>Ultimate Service Solutions</div>
+              <div style={{ fontFamily: "var(--font-display)", fontSize: 18, color: "white", marginBottom: 10, fontWeight: 700 }}>
+                Ultimate Service Solutions
+              </div>
               <p style={{ fontSize: 13, lineHeight: 1.8, marginBottom: 20, color: "rgba(255,255,255,0.55)" }}>
                 Trusted pest control serving Delhi NCR and Haryana since 2012. Certified technicians, guaranteed results.
               </p>
@@ -109,7 +208,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <div>
               <div style={{ fontSize: 13, fontWeight: 600, color: "white", textTransform: "uppercase", letterSpacing: "0.06em", marginBottom: 16 }}>Quick Links</div>
               <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-                {[{ label: "About", href: "/#about" }, { label: "Services", href: "/services" }, { label: "AMC Plans", href: "/amc" }, { label: "Gallery", href: "/gallery" }, { label: "Book Service", href: "/book-service" }].map((l) => (
+                {[
+                  { label: "About",        href: "/#about" },
+                  { label: "Services",     href: "/services" },
+                  { label: "AMC Plans",    href: "/amc" },
+                  { label: "How It Works", href: "/how-it-works" },
+                  { label: "Book Service", href: "/book-service" },
+                ].map((l) => (
                   <Link key={l.label} href={l.href} style={{ fontSize: 13, color: "rgba(255,255,255,0.55)" }}>{l.label}</Link>
                 ))}
               </div>
