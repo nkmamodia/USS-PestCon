@@ -2,6 +2,7 @@
 import { useState, useEffect, useRef } from "react";
 import { business } from "@/config/business";
 import { EyeOpen, EyeOff } from "./EyeIcons";
+import { EyeOpen, EyeOff } from "./EyeIcons";
 
 export default function AuthPopup({ defaultTab = "signin", onClose }: { defaultTab?: "signin" | "signup"; onClose: () => void }) {
   const [tab, setTab] = useState<"signin" | "signup">(defaultTab);
