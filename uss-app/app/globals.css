@@ -49,3 +49,17 @@ a { text-decoration: none; color: inherit; }
   h1 { font-size: clamp(28px, 8vw, 48px) !important; }
   h2 { font-size: clamp(22px, 6vw, 32px) !important; }
 }
+
+/* ============================================
+   MOBILE RESPONSIVE — do not remove this block
+   ============================================ */
+@media (max-width: 900px) {
+  .desktop-nav { display: none !important; }
+  .hamburger-btn { display: flex !important; }
+}
+
+@media (max-width: 600px) {
+  section { padding: 56px 5% !important; }
+  h1 { font-size: clamp(28px, 8vw, 48px) !important; }
+  h2 { font-size: clamp(22px, 6vw, 32px) !important; }
+}
